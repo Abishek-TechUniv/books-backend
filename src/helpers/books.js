@@ -1,5 +1,6 @@
 const rp = require('request-promise');
 const constants = require('../constants');
+const models = require('../../models');
 
 const joinBooksWithRatings = booksInput => new Promise((resolve, reject) => {
   const books = booksInput.map(book => ({
@@ -38,5 +39,10 @@ const groupBooks = (books) => {
   return group;
 };
 
-module.exports = { joinBooksWithRatings, groupBooks };
+const insertBooks = (myBooks) => {
+  models.books.truncate()
+    .then(() => models.books.bulkCreate(myBooks));
+};
+
+module.exports = { joinBooksWithRatings, groupBooks, insertBooks };
 

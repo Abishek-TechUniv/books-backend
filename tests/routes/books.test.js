@@ -29,3 +29,16 @@ describe('get details from /books should return', () => {
     });
   });
 });
+
+describe('post details to /books should return', () => {
+  test('200 statusCode for successful request', (done) => {
+    const request = {
+      method: 'POST',
+      url: '/books',
+    };
+    server.inject(request, (reply) => {
+      expect(reply.statusCode).toEqual(200);
+      done();
+    });
+  });
+});
