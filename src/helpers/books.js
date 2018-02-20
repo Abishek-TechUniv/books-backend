@@ -40,7 +40,7 @@ const groupBooks = (books) => {
 };
 
 const insertBooks = (myBooks) => {
-  models.books.truncate()
+  models.books.destroy({ truncate: true })
     .then(() => models.books.bulkCreate(myBooks));
 };
 
