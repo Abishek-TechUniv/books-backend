@@ -1,9 +1,15 @@
+const rp = require('request-promise');
+const constants = require('../constants');
+
 module.exports = [
   {
     path: '/books',
     method: 'GET',
     handler: (request, reply) => {
-      reply('Not implemented');
+      rp({
+        method: 'GET',
+        url: constants.api1,
+      }).then(result => reply(result).code(200));
     },
   },
 ];
