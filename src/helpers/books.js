@@ -30,6 +30,15 @@ const joinBooksWithRatings = booksInput => new Promise((resolve, reject) => {
     .catch((reason) => { reject(new Error(reason.message)); });
 });
 
+const joinBooksWithLikes = booksInput =>
+  booksInput.map((book) => {
+    book.liked = models.likes.findOrCreate({
+      where: { bookId: book.bookId },
+      defaults: { bookId: book.bookId, liked: false },
+    }).then(likedBook => likedBook.like);
+    return book;
+  });
+
 const groupBooks = (books) => {
   const group = {};
   books.forEach((elem) => {
@@ -44,5 +53,7 @@ const insertBooks = (myBooks) => {
     .then(() => models.books.bulkCreate(myBooks));
 };
 
-module.exports = { joinBooksWithRatings, groupBooks, insertBooks };
+module.exports = {
+  joinBooksWithRatings, groupBooks, insertBooks, joinBooksWithLikes,
+};
 

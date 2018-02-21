@@ -1,6 +1,10 @@
 const rp = require('request-promise');
 const constants = require('../constants');
-const { joinBooksWithRatings, groupBooks, insertBooks } = require('../helpers/books');
+const models = require('../../models');
+
+const {
+  joinBooksWithRatings, groupBooks, insertBooks, joinBooksWithLikes,
+} = require('../helpers/books');
 
 module.exports = [
   {
@@ -33,5 +37,14 @@ module.exports = [
         .catch(err => reply(err).code(501));
     },
   },
-
+  {
+    path: '/books/liked',
+    method: 'GET',
+    handler: (request, reply) => {
+      models.books.findAll()
+        .then(booksArr => joinBooksWithLikes(booksArr))
+        .then(data => reply(data).code(200))
+        .catch(err => reply(err).code(501));
+    },
+  },
 ];

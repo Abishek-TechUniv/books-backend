@@ -2,6 +2,13 @@ const models = require('../../models');
 
 module.exports = [
   {
+    path: '/likes',
+    method: 'GET',
+    handler: (request, reply) => {
+      models.likes.findAll().then(data => reply(data));
+    },
+  },
+  {
     path: '/books/{bookId}/like',
     method: 'POST',
     handler: (request, reply) => {
